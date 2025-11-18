@@ -25,3 +25,24 @@ exports.notes_get_id = async (req, res) => {
   });
   res.json(note);
 };
+
+// Update note by id
+exports.notes_update = async (req, res) => {
+  const { noteId } = req.params;
+  const { title, content } = req.body;
+
+  const note = await prisma.note.update({
+    where: { id: Number(noteId) },
+    data: { title, content },
+  });
+  res.json(note);
+};
+
+// Delete note by id
+exports.notes_delete = async (req, res) => {
+  const { noteId } = req.params;
+  await prisma.note.delete({
+    where: { id: Number(noteId) },
+  });
+  res.json({ message: "Note Deleted" });
+};
