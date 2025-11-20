@@ -30,7 +30,6 @@ exports.notes_get_id = async (req, res) => {
 exports.notes_update = async (req, res) => {
   const { noteId } = req.params;
   const { title, content } = req.body;
-
   const note = await prisma.note.update({
     where: { id: Number(noteId) },
     data: { title, content },
