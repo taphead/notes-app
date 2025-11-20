@@ -1,9 +1,18 @@
-require("dotenv").config();
-const express = require("express");
-const { PrismaClient } = require("@prisma/client");
-const cors = require("cors");
-const notesRoutes = require("./routes/notes.js");
-const authRoutes = require("./routes/auth.js");
+// require("dotenv").config();
+// const express = require("express");
+// const { PrismaClient } = require("@prisma/client");
+// const cors = require("cors");
+// const notesRoutes = require("./routes/notes.js");
+// const authRoutes = require("./routes/auth.js");
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import { PrismaClient } from "@prisma/client";
+import cors from "cors";
+
+import notesRoutes from "./routes/notes.js";
+import authRoutes from "./routes/auth.js";
 
 const prisma = new PrismaClient();
 const app = express();
