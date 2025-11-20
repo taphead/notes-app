@@ -1,4 +1,3 @@
-// const jwt = require("jsonwebtoken");
 import jwt from "jsonwebtoken";
 
 export function authenticateToken(req, res, next) {

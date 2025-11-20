@@ -1,8 +1,5 @@
-// const express = require("express");
 import express from "express";
-// const notes_controller = require("../controllers/notesController");
 import notes_controller from "../controllers/notesController.js";
-// const authenticateToken = require("../middleware/authMiddleware");
 import { authenticateToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();

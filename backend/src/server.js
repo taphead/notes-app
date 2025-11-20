@@ -1,9 +1,3 @@
-// require("dotenv").config();
-// const express = require("express");
-// const { PrismaClient } = require("@prisma/client");
-// const cors = require("cors");
-// const notesRoutes = require("./routes/notes.js");
-// const authRoutes = require("./routes/auth.js");
 import dotenv from "dotenv";
 dotenv.config();
 
