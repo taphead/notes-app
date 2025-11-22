@@ -11,13 +11,13 @@ router.get("/", authenticateToken, notes_controller.notes_list);
 router.post("/", authenticateToken, notes_controller.notes_create_post);
 
 // Get note by id
-router.get("/:noteId", notes_controller.notes_get_id);
+router.get("/:noteId", authenticateToken, notes_controller.notes_get_id);
 
 // Update note by id
-router.put("/:noteId", notes_controller.notes_update);
+router.put("/:noteId", authenticateToken, notes_controller.notes_update);
 
 // Delete note by id
-router.delete("/:noteId", notes_controller.notes_delete);
+router.delete("/:noteId", authenticateToken, notes_controller.notes_delete);
 
 // module.exports = router;
 export default router;

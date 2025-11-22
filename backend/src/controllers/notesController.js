@@ -11,7 +11,8 @@ const notes_controller = {
 
   // Create a note
   notes_create_post: async (req, res) => {
-    const { title, content, userId } = req.body;
+    const { title, content } = req.body;
+    const userId = req.user.id;
     const note = await prisma.note.create({
       data: { title, content, user: { connect: { id: userId } } },
     });
@@ -21,8 +22,9 @@ const notes_controller = {
   // Get note by id
   notes_get_id: async (req, res) => {
     const { noteId } = req.params;
+    const userId = req.user.id;
     const note = await prisma.note.findUnique({
-      where: { id: Number(noteId) },
+      where: { id: Number(noteId), userId },
     });
     res.json(note);
   },
@@ -31,8 +33,9 @@ const notes_controller = {
   notes_update: async (req, res) => {
     const { noteId } = req.params;
     const { title, content } = req.body;
+    const userId = req.user.id;
     const note = await prisma.note.update({
-      where: { id: Number(noteId) },
+      where: { id: Number(noteId), userId },
       data: { title, content },
     });
     res.json(note);
@@ -41,8 +44,9 @@ const notes_controller = {
   // Delete note by id
   notes_delete: async (req, res) => {
     const { noteId } = req.params;
+    const userId = req.user.id;
     await prisma.note.delete({
-      where: { id: Number(noteId) },
+      where: { id: Number(noteId), userId },
     });
     res.json({ message: "Note Deleted" });
   },
