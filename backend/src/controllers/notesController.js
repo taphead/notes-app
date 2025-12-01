@@ -3,9 +3,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const notes_controller = {
-  // Get list of all notes
+  // Get all of a user's notes
   notes_list: async (req, res) => {
-    const notes = await prisma.note.findMany();
+    const userId = req.user.id;
+    const notes = await prisma.note.findMany({
+      where: { userId: Number(userId) },
+    });
     res.json(notes);
   },
 
