@@ -1,41 +1,62 @@
 import { cookies } from "next/headers";
+import SignOutButton from "@/components/signOutButton/SignOutButton";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import NoteDialog from "@/components/noteDialog/NoteDialog";
+import NoteCreate from "@/components/noteCreate/noteCreate";
+import NoteEdit from "@/components/noteEdit/NoteEdit";
+import NoteDelete from "@/components/noteDelete/NoteDelete";
 
 export default async function Notes() {
 
-  const token = (await cookies()).get("token")?.value
+  const token: string | undefined = (await cookies()).get("token")?.value;
   const res = await fetch(`http://localhost:5000/api/notes`, {
     cache: "no-store",
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!res.ok) {
-    return <div>Failed to load notes</div>;
+    return (
+      <>
+        <div>Failed to load notes</div>
+        <SignOutButton />
+      </>
+    );
   }
 
   const notes = await res.json();
-  console.log("NOTES: ", notes)
 
   return (
     <div>
-      <ul>
+      <div className="flex justify-center items-center">
+        <h1 className="text-3xl my-4">Notes:</h1>
+      </div>
+      <div className="flex flex-wrap justify-center items-center gap-3">
         {notes.map((note: any) => (
-          <li key={note.id}>{note.title}</li>
+          <Card key={note.id} className="w-[250px] text-center">
+            <CardHeader>
+              <CardTitle className="truncate wrap-break-word">{note.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="px-1">
+              <p className="wrap-break-word">{note.content}</p>
+            </CardContent>
+            <CardFooter className="flex justify-center items-center gap-2">
+            <NoteEdit />
+            <NoteDelete note={note} token={token}/>
+            </CardFooter>
+          </Card>
         ))}
-      </ul>
-      NOTES
+      </div>
+    <NoteCreate token={token}/>
     </div>
   );
-}
-
-{
-  /* <button
-  onClick={async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/");
-  }}
->
-  Sign Out
-</button>; */
 }
