@@ -8,6 +8,7 @@ const notes_controller = {
     const userId = req.user.id;
     const notes = await prisma.note.findMany({
       where: { userId: Number(userId) },
+      orderBy: { createdAt: "asc" },
     });
     res.json(notes);
   },
