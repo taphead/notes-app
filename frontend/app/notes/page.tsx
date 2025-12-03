@@ -7,10 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import NoteDialog from "@/components/noteDialog/NoteDialog";
-import NoteCreate from "@/components/noteCreate/noteCreate";
+import NoteCreate from "@/components/noteCreate/NoteCreate";
 import NoteEdit from "@/components/noteEdit/NoteEdit";
 import NoteDelete from "@/components/noteDelete/NoteDelete";
 
@@ -50,13 +47,14 @@ export default async function Notes() {
               <p className="wrap-break-word">{note.content}</p>
             </CardContent>
             <CardFooter className="flex justify-center items-center gap-2">
-            <NoteEdit />
+            <NoteEdit note={note} token={token} />
             <NoteDelete note={note} token={token}/>
             </CardFooter>
           </Card>
         ))}
       </div>
     <NoteCreate token={token}/>
+    <SignOutButton />
     </div>
   );
 }

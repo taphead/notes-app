@@ -10,20 +10,31 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 
-export default function NoteDialog({ open, onClose, onSaved, token }: any) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+export default function NoteDialog({
+  note,
+  open,
+  onClose,
+  onSaved,
+  token,
+}: any) {
+  const [title, setTitle] = useState(note?.title || "");
+  const [content, setContent] = useState(note?.content || "");
 
   const handleSave = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ title, content }),
-      });
+      const res = await fetch(
+        note
+          ? `http://localhost:5000/api/notes/${note.id}`
+          : "http://localhost:5000/api/notes",
+        {
+          method: note ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title, content }),
+        }
+      );
 
       if (!res.ok) {
         const error = await res.text();
@@ -31,9 +42,6 @@ export default function NoteDialog({ open, onClose, onSaved, token }: any) {
         alert("Failed to create note. Check console for details.");
         return;
       }
-
-      const data = await res.json();
-      console.log("Note created:", data);
 
       setTitle("");
       setContent("");
