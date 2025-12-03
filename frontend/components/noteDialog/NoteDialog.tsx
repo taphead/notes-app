@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function NoteDialog({
   note,
@@ -19,6 +19,14 @@ export default function NoteDialog({
 }: any) {
   const [title, setTitle] = useState(note?.title || "");
   const [content, setContent] = useState(note?.content || "");
+
+  // When editing twice in succession, the title and content values appear empty
+  // Bc component only initializes the title and content state once when the component first mounts. 
+  // When you open the dialog again, the useState hooks don't re-initialize with the new note prop values.
+  useEffect(() => {
+    setTitle(note?.title || "");
+    setContent(note?.content || "")
+  }, [note])
 
   const handleSave = async () => {
     try {
